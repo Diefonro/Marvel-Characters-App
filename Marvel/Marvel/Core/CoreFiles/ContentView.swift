@@ -10,10 +10,10 @@ import SwiftUI
 struct ContentView: View {
     @StateObject var viewModel = ViewModel()
     var body: some View {
-        CharacterListView().environmentObject(viewModel)
+        CharacterListView(charactersViewModel: CharacterListViewModel()).environmentObject(viewModel)
     }
 }
 
 #Preview {
-    CharacterListView().environmentObject(ViewModel())
+    CharacterListView(charactersViewModel: CharacterListViewModel()).environmentObject(ViewModel())
 }

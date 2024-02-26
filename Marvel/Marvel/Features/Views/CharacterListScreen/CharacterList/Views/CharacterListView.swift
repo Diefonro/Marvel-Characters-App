@@ -11,6 +11,8 @@ struct CharacterListView: View {
     @State private var showFavorites = false
     @EnvironmentObject var viewModel: ViewModel
     
+    var charactersViewModel: CharacterListViewModel
+    
     private var filteredCharacters: [ModelTest] {
         return viewModel.characters.filter { character in
             return !showFavorites || character.favorite
@@ -23,12 +25,13 @@ struct CharacterListView: View {
 //                Toggle(isOn: $showFavorites) {
 //                    Text("Show favorites")
 //                }.padding()
-                
                 List(filteredCharacters, id: \.id) { characters in
                     NavigationLink(destination: CharacterDetailView(favorite: $viewModel.characters[characters.id].favorite, characters: characters)) {
                         CharacterRowView(character: characters)
                     }
-                }
+                }.onAppear(perform: {
+                    charactersViewModel.getCharacters()
+                })
             }
             .navigationTitle("Marvel Characters")
             .toolbarColorScheme(.dark, for: .navigationBar)
@@ -39,5 +42,5 @@ struct CharacterListView: View {
 }
 
 #Preview {
-    CharacterListView()
+    CharacterListView(charactersViewModel: CharacterListViewModel())
 }
